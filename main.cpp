@@ -4,6 +4,19 @@
 #include <list>
 #include <tuple>
 
+template <typename T>
+struct is_tuple : std::false_type {};
+
+template <typename... Args>
+struct is_tuple<std::tuple<Args...>> : std::true_type {};
+
+template <
+    typename T,
+    typename = std::enable_if_t< is_tuple<std::decay_t<T>>::value>>
+    void print_ip(const T& tuple)
+{
+    std::cout << "print tuple\n";
+}
 
 template <
     typename T,
@@ -44,23 +57,6 @@ template <
     }
     std::cout << std::endl;
 }
-
-
-template <typename T>
-struct is_tuple : std::false_type {};
-
-template <typename... Args>
-struct is_tuple<std::tuple<Args...>> : std::true_type {};
-
-template <
-    typename T, 
-    typename = std::enable_if_t< is_tuple<std::decay_t<T>>::value>>
-void print_ip(const T& tuple)
-{
-    std::cout << "print tuple\n";
-}
-
-
 
 int main() {
     print_ip(int8_t{ -1 }); // 255
