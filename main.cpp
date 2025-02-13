@@ -3,31 +3,21 @@
 #include <vector>
 #include <list>
 #include <tuple>
+#include <cstdint>
 
-template <typename T>
-struct is_tuple : std::false_type {};
-
-template <typename... Args>
-struct is_tuple<std::tuple<Args...>> : std::true_type {};
-
-template <
-    typename T,
-    typename = std::enable_if_t< is_tuple<std::decay_t<T>>::value>>
-    void print_ip(const T& tuple)
-{
-    std::cout << "print tuple\n";
+template <std::size_t Index = 0, typename... Args>
+void print_ip(const std::tuple<Args...>& t) {
+    if constexpr (Index < sizeof...(Args)) {
+        std::cout << std::get<Index>(t) << ((Index < (sizeof...(Args) - 1)) ? "." : "\n");
+        print_ip<Index + 1>(t);
+    }
 }
 
-template <
-    typename T,
-    typename = std::enable_if_t< !is_tuple<std::decay_t<T>>::value>>
+template <typename T>
 void print_ip(T t) {
-
     auto sz = sizeof(t) * 8;
-    uint8_t mask = 0xff;
 
     if (t < 0) {
-        // t = (~t) + (uint8_t)1;
         t = static_cast<uint8_t>(t);
     }
 

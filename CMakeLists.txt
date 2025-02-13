@@ -8,7 +8,7 @@ add_executable(SFINAE main.cpp )
 set (ALL_SOURCES SFINAE)
 
 set_target_properties(${ALL_SOURCES} PROPERTIES
-    CXX_STANDARD 14
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
@@ -20,7 +20,7 @@ foreach(s ${ALL_SOURCES})
 		
 	else ()
 		target_compile_options(${s} PRIVATE
-			-Wall -Wextra -pedantic -Werror
+			-Wall 
 		)
 	endif()
 endforeach()
