@@ -13,23 +13,32 @@ void print_ip(const std::tuple<Args...>& t) {
     }
 }
 
+template<typename T>
+struct IsString {
+    static constexpr bool value = false;
+};
+
+template<>
+struct IsString<std::string> {
+    static constexpr bool value = true;
+};
+
 template <typename T>
 void print_ip(T t) {
-    auto sz = sizeof(t) * 8;
+    if constexpr (IsString<T>::value) {
+        std::cout << t << std::endl;
+    } else {
+        auto sz = sizeof(t) * 8;
 
-    if (t < 0) {
-        t = static_cast<uint8_t>(t);
+        if (t < 0) {
+            t = static_cast<uint8_t>(t);
+        }
+
+        do {
+            sz -= 8;
+            std::cout << std::to_string(static_cast<uint8_t>(t >> sz)) << ((sz != 0) ? "." : "\n");
+        } while (sz);
     }
-
-    do {
-        sz -= 8;
-        std::cout << std::to_string(static_cast<uint8_t>(t >> sz)) << ((sz != 0) ? "." : "\n");
-    } while (sz);
-}
-
-
-void print_ip(std::string t) {
-    std::cout << t << std::endl;
 }
 
 template <
