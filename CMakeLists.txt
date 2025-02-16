@@ -1,11 +1,11 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-project(SFINAE )
+project(print_ip )
 
-add_executable(SFINAE main.cpp )
+add_executable(print_ip main.cpp )
 
-set (ALL_SOURCES SFINAE)
+set (ALL_SOURCES print_ip)
 
 set_target_properties(${ALL_SOURCES} PROPERTIES
     CXX_STANDARD 17
@@ -25,7 +25,7 @@ foreach(s ${ALL_SOURCES})
 	endif()
 endforeach()
 
-install(TARGETS SFINAE RUNTIME DESTINATION bin)
+install(TARGETS print_ip RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_CONTACT example@example.com)

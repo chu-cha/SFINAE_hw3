@@ -5,8 +5,17 @@
 #include <tuple>
 #include <cstdint>
 
+
+template<typename T, typename... Ts>
+struct all_types_same {
+    static constexpr bool value = std::conjunction_v<std::is_same<T, Ts>...>;
+};
+
 template <std::size_t Index = 0, typename... Args>
 void print_ip(const std::tuple<Args...>& t) {
+
+    static_assert(all_types_same<Args...>::value);
+
     if constexpr (Index < sizeof...(Args)) {
         std::cout << std::get<Index>(t) << ((Index < (sizeof...(Args) - 1)) ? "." : "\n");
         print_ip<Index + 1>(t);
